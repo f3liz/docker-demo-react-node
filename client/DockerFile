@@ -1,4 +1,4 @@
-# Backend Dockerfile
+# Frontend Dockerfile 
 
 # Use the official Node.js image (using the lightweight Alpine image to keep the docker image small)
 FROM node:18-alpine
@@ -12,11 +12,11 @@ COPY package*.json ./
 # Install all the dependencies inside the container
 RUN npm install
 
-# Copy the rest of the backend code into the container
+# Copy the rest of the frontend code into the container
 COPY . .
 
-# Expose the port the app/backend will listen on (3000)
-EXPOSE 3000
+# Expose the port the frontend dev server will run on (3001)
+EXPOSE 3001
 
-# Define the default command to start the backend server
+# Define the default command to start the React development server
 CMD ["npm", "start"]
