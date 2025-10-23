@@ -1,0 +1,49 @@
+# docker-compose.yml
+
+services:
+  # Backend service (Node.js API)
+  backend:
+    # Build the backend container using the Dockerfile inside the backend folder
+    build: ./server
+
+    # Map the container port 3000 to the host port 3000
+    ports:
+      - "3000:3000"
+
+    # Create a container named 'backend' for easier reference
+    container_name: backend
+
+    # Connect the backend to the shared app network
+    networks:
+      - app-network
+
+
+  # Frontend service (React app)
+  frontend:
+    # Build the frontend container using the Dockerfile inside the frontend folder
+    build: ./client
+
+    # Map the container port 3001 to the host port 3001
+    ports:
+      - "3001:3001"
+
+    # Wait for the backend service to start before running the frontend
+    depends_on:
+      - backend
+
+    # Set environment variable(s) for the frontend
+    environment:
+      - PORT=3001
+
+    # Create a container named 'frontend' for easier reference
+    container_name: frontend
+
+    # Connect the frontend to the same app network
+    networks:
+      - app-network
+
+
+# Define a shared network so both containers can communicate (Docker does this automatically by default)
+networks:
+  app-network:
+    driver: bridge
